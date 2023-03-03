@@ -35,7 +35,7 @@ const helper = <T extends NoteObjType>(array: NoteObjType[]): T[] => {
   return data as T[]
 }
 
-export const noteStore = defineStore('noteStore', {
+export const useNoteStore = defineStore('noteStore', {
   state: (): GlobalState => ({
     notes: [{ note: 'trial', deleted: false, id: nanoid(), stared: false }],
     trash: [],
