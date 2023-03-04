@@ -8,10 +8,10 @@ import StarredNoteSection from '@/components/StarredNoteSection.vue'
       <h1>Stared Notes</h1>
       <ul class="list-none flex gap-4">
         <li>
-          <Link to="/" class="underline"> Notes </Link>
+          <router-link to="/" class="underline"> Notes </router-link>
         </li>
         <li>
-          <Link to="/trash" class="underline"> Trash </Link>
+          <router-link to="/trash" class="underline"> Trash </router-link>
         </li>
       </ul>
     </header>

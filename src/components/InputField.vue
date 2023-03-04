@@ -3,8 +3,6 @@ import { defineComponent } from 'vue'
 import type { PropType } from 'vue'
 import { useNoteStore } from '@/stores/noteStore'
 
-const noteStore = useNoteStore()
-
 type DataState = {
   dataState: string
 }
@@ -29,6 +27,11 @@ export default defineComponent({
       return value
     }
   },
+  setup() {
+    //Global reference to pinia store
+    const noteStore = useNoteStore()
+    return { noteStore }
+  },
   data: (): DataState => ({
     dataState: ''
   }),
@@ -36,13 +39,14 @@ export default defineComponent({
     submit() {
       if (this.type === 'edit') {
         //input  for edit cases
-        noteStore.editNote({
+
+        this.noteStore.editNote({
           id: this.id,
-          update: this.data
+          update: this.dataState
         })
       } else {
         //input  for add cases
-        noteStore.addNote({ id: '', deleted: true, stared: true, note: this.dataState })
+        this.noteStore.addNote({ id: '', deleted: false, stared: false, note: this.dataState })
       }
       this.$emit('showInputField', false)
     }

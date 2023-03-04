@@ -3,28 +3,30 @@ import { defineComponent } from 'vue'
 import InputField from './InputField.vue'
 import { useNoteStore } from '@/stores/noteStore'
 
-const starredNoteStore = useNoteStore()
-const starredNotes = starredNoteStore.stared
-
 type DataState = {
   id: string
   data: string
   show: boolean
-  // eslint-disable-next-line no-undef
-  starredList: NoteObjTypeStared[]
 }
 
 export default defineComponent({
+  setup() {
+    //Global Reference to Pinia
+    const starredNoteStore = useNoteStore()
+
+    return {
+      starredNoteStore
+    }
+  },
   data: (): DataState => ({
     id: '',
     data: '',
-    show: false,
-    starredList: []
+    show: false
   }),
   components: { InputField },
   computed: {
     starredNotesLength() {
-      return starredNotes.length
+      return this.starredNoteStore.stared.length
     }
   },
   methods: {
@@ -33,7 +35,7 @@ export default defineComponent({
     },
     // eslint-disable-next-line no-undef
     Unstar(item: NoteObjTypeStared): void {
-      starredNoteStore.unstarNotes({ id: item.id })
+      this.starredNoteStore.unstarNotes({ id: item.id })
     },
     // eslint-disable-next-line no-undef
     editNote(item: NoteObjTypeStared): void {
@@ -43,11 +45,8 @@ export default defineComponent({
     },
     // eslint-disable-next-line no-undef
     trashNote(item: NoteObjTypeStared): void {
-      starredNoteStore.trashNotes({ id: item.id })
+      this.starredNoteStore.trashNotes({ id: item.id })
     }
-  },
-  created() {
-    this.starredList = starredNotes
   }
 })
 </script>
@@ -69,7 +68,7 @@ export default defineComponent({
     </div>
     <div
       v-else
-      v-for="staredNote in starredList"
+      v-for="staredNote in starredNoteStore.stared"
       :key="staredNote.id"
       class="w-full max-w-4xl h-auto shadow-lg p-4 rounded-xl text-xl"
     >

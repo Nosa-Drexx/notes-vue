@@ -3,28 +3,29 @@ import { defineComponent } from 'vue'
 import InputField from './InputField.vue'
 import { useNoteStore } from '@/stores/noteStore'
 
-const noteStore = useNoteStore()
-const notes = noteStore.notes
-
 type DataState = {
   id: string
   data: string
   show: boolean
-  // eslint-disable-next-line no-undef
-  noteList: NoteObjType[]
 }
 
 export default defineComponent({
+  setup() {
+    //Global Reference to Pinia store.
+    const noteStore = useNoteStore()
+    return {
+      noteStore
+    }
+  },
   data: (): DataState => ({
     id: '',
     data: '',
-    show: false,
-    noteList: []
+    show: false
   }),
   components: { InputField },
   computed: {
     notesLength() {
-      return notes.length
+      return this.noteStore.notes.length
     }
   },
   methods: {
@@ -33,7 +34,9 @@ export default defineComponent({
     },
     // eslint-disable-next-line no-undef
     starOrUnstar(item: NoteObjType): void {
-      !item.stared ? noteStore.starNotes({ id: item.id }) : noteStore.unstarNotes({ id: item.id })
+      !item.stared
+        ? this.noteStore.starNotes({ id: item.id })
+        : this.noteStore.unstarNotes({ id: item.id })
     },
     // eslint-disable-next-line no-undef
     editNote(item: NoteObjType): void {
@@ -43,11 +46,8 @@ export default defineComponent({
     },
     // eslint-disable-next-line no-undef
     trashNote(item: NoteObjType): void {
-      noteStore.trashNotes({ id: item.id })
+      this.noteStore.trashNotes({ id: item.id })
     }
-  },
-  created() {
-    this.noteList = notes
   }
 })
 </script>
@@ -58,7 +58,7 @@ export default defineComponent({
       v-if="show"
       :id="id"
       :data="data"
-      :type="'add'"
+      :type="'edit'"
       @showInputField="showInputField"
     ></InputField>
     <div
@@ -69,7 +69,7 @@ export default defineComponent({
     </div>
     <div
       v-else
-      v-for="note in noteList"
+      v-for="note in noteStore.notes"
       :key="note.id"
       class="w-full max-w-4xl h-auto shadow-lg p-4 rounded-xl text-xl"
     >

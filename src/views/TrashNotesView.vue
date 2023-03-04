@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import TrashNoteSection from '@/components/StarredNoteSection.vue'
+import TrashNoteSection from '@/components/TrashNoteSection.vue'
 </script>
 
 <template>

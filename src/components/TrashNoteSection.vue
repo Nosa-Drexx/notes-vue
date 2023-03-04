@@ -2,32 +2,26 @@
 import { defineComponent } from 'vue'
 import { useNoteStore } from '@/stores/noteStore'
 
-const trashNoteStore = useNoteStore()
-
-type DataState = {
-  // eslint-disable-next-line no-undef
-  trashNoteList: NoteObjTypeTrash[]
-}
-
 export default defineComponent({
-  data: (): DataState => ({
-    trashNoteList: []
-  }),
+  setup() {
+    //Global Reference to Pinia
+    const trashNoteStore = useNoteStore()
+    return {
+      trashNoteStore
+    }
+  },
   computed: {
     trashNoteLength() {
-      return this.trashNoteList.length
+      return this.trashNoteStore.trash.length
     }
   },
   methods: {
     restoreNote(id: string) {
-      trashNoteStore.trashNotes({ id })
+      this.trashNoteStore.restoreNotes({ id })
     },
     deletePermanently(id: string) {
-      trashNoteStore.deleteNote({ id })
+      this.trashNoteStore.deleteNote({ id })
     }
-  },
-  created() {
-    this.trashNoteList = trashNoteStore.trash
   }
 })
 </script>
@@ -42,7 +36,7 @@ export default defineComponent({
     </div>
     <div
       v-else
-      v-for="trashNote in trashNoteList"
+      v-for="trashNote in trashNoteStore.trash"
       :key="trashNote.id"
       class="w-full max-w-4xl h-auto shadow-lg p-4 rounded-xl text-xl"
     >

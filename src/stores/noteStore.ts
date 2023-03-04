@@ -127,7 +127,6 @@ export const useNoteStore = defineStore('noteStore', {
         }
         return elem
       })
-
       this.notes = newNotes
       this.stared = [...staredArray, ...this.stared]
     },
