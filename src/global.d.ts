@@ -15,25 +15,25 @@ type GlobalState = {
 }
 
 // Action Object Types
-type ActionTypeEdit = {
-  type: 'edit'
-  payload: {
-    id: string
-    update: string
-  }
-}
-type ActionTypeBooleans = {
-  type: 'star' | 'trash' | 'delete' | 'unstar' | 'restore'
-  payload: {
-    id: string
-  }
-}
-type ActionType =
-  | {
-      type: 'add'
-      payload: {
-        details: string
-      }
-    }
-  | ActionTypeBooleans
-  | ActionTypeEdit
+// type ActionTypeEdit = {
+//   type: 'edit'
+//   payload: {
+//     id: string
+//     update: string
+//   }
+// }
+// type ActionTypeBooleans = {
+//   type: 'star' | 'trash' | 'delete' | 'unstar' | 'restore'
+//   payload: {
+//     id: string
+//   }
+// }
+// type ActionType =
+//   | {
+//       type: 'add'
+//       payload: {
+//         details: string
+//       }
+//     }
+//   | ActionTypeBooleans
+//   | ActionTypeEdit
