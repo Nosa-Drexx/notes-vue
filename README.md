@@ -1,6 +1,6 @@
 # notes-vue
 
-This template should help get you started developing with Vue 3 in Vite.
+A note taking application built with Vue and Typescript used TailwindCSS for styling
 
 ## Recommended IDE Setup
 
